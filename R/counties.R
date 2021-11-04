@@ -1,4 +1,4 @@
-#' @title South Carolina state's county shapefile documentation
+#' @title The Counties of South Carolina
 #' @description The county shapefile will be used for checking
 #' differences between useid id and spatial location county names.
 #' SCDHEC's sw and gw sourceids have county names associated by the county code in its
@@ -16,4 +16,4 @@
 #' \item{SHAPE_LEN}{County's length}
 #' \item{geometry}{County's lat long}
 #' }
-"SC_counties"
+"counties"
