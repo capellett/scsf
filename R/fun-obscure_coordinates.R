@@ -1,33 +1,3 @@
-#' @title Point in or outside the South Carolina state boundary.
-#' @description Checks if a point with longitude and latitude information, lies
-# inside the "SC boundary" polygon. Input object should be of 'sf' class.
-# SC_boundary is a South Carolina state boundary shapefile used to check
-# if all the withdrawal locations in the shapefile are within the state
-# boundary.
-# The 'st_transform' function is used to transform the coordinate
-# system of the input object (here, 'x') to match the coordinate system of the
-# SC_boundary shapefile.
-# The 'st_contains' function is used to find if the point withdrawals in the
-# point shapefile falls within the SC_boundary polygon. As the SC_boundary
-# shapefile had two polygons, one of them is a 3 mile coastal extension polygon,
-# apply(2, any) was used to include the second polygon as well when using the
-# st_contains function.
-#' @param x is a point shapefile with two of its columns for longitude and
-# latitude.
-#' @return a logical output (TRUE if point lies inside the polygon)
-#' @importFrom sf st_transform
-#' @importFrom sf st_crs
-#' @importFrom sf st_contains
-#' @export
-check_points_in_SC <- function(x) {
-  if(!c("sf", "data.frame") %in% class(x) %>% all())
-    {stop("Invalid class, input object must be of class 'sf' and 'data.frame'")}
-  coord_prj <- sf::st_transform(x, sf::st_crs(SC_boundary_new))
-  sf::st_contains(SC_boundary_new, coord_prj,sparse = FALSE) %>% apply(2, any) %>%
-    return()
-}
-
-
 #' @title Obscure the latitude and longitude in a given shapefile
 #' @description The function obscures the original latitude and longitude
 # provided in a shapefile. Input should be of 'sf' class: 'Simple features', A
@@ -87,45 +57,15 @@ check_points_in_SC <- function(x) {
 #' @export
 obscure_coordinates <- function(x) {
   if(!c("sf", "data.frame") %in% class(x) %>% all())
-    {stop("Invalid class, input object must be of class 'sf' and 'data.frame'")}
+  {stop("Invalid class, input object must be of class 'sf' and 'data.frame'")}
   original_coord <- sf::st_coordinates(x) %>%
     data.frame()
   obscured_coord <-
     dplyr::mutate(original_coord,
-         lat = jitter(round(original_coord$Y, 2), .1),
-         lng = jitter(round(original_coord$X, 2), .1)) %>%
+                  lat = jitter(round(original_coord$Y, 2), .1),
+                  lng = jitter(round(original_coord$X, 2), .1)) %>%
     sf::st_as_sf(coords=c("lat", "lng"), crs= sf::st_crs(x),agr= "identity")
   y <- x
   sf::st_set_geometry(y, sf::st_geometry(obscured_coord))
   return(y)
 }
-
-#' @title Drop geometry
-#' @description the function can remove geometry from a data set with class 'sf'
-#  i.e removes the crs and geometry information.
-# 'SC_boundary' is a shape file with class 'sf' and 'data.frame'.
-# When the shape file is viewed it has two polygons, each with attributes
-# (columns of) for 'State', 'Area', 'Name', 'Shape_Area', 'Shape_Len', 'XCoord',
-# 'YCoord', 'geometry', and CRS information.
-# After using this function, the attribute columns are preserved, except
-# geometry column. Thereby converting the shape file into a regular data frame.
-#' @param x a shape file with class 'sf' and 'data.frame'
-#' @importFrom sf st_drop_geometry
-#' @return a data.frame
-#' @export
-st_drop_geometry_if <- function(x) {
-  if(is(x, "sf")) {
-    return(sf::st_drop_geometry(x))
-  } else {
-    return(x)}
-}
-
-
-#' @title Convert projection
-#' @description function converts projections
-#' @param x dataframe, column, vector
-#' @importFrom sp spTransform
-#' @export
-convCRS <- function(x) {
-  sp::spTransform(
-    x, "+init=epsg:4269 +proj=longlat +datum=NAD83 +no_defs +ellps=GRS80 +towgs84=0,0,0") }
