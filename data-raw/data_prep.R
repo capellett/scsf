@@ -33,6 +33,9 @@ basins <- sf::st_read(
 
 usethis::use_data(basins)
 
+basins <- sf::st_transform(basins, 4269)
+
+usethis::use_data(basins, overwrite=T)
 
 ######## Counties
 counties <- sf::st_read("data-raw//counties.shp") %>%
