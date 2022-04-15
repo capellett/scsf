@@ -3,9 +3,9 @@
 ## 2. import the data using sf::st_read()
 ## 3. Modify as needed. For example, select and rename columns, or remove extraneous features.
 ## 4. usethis::use_data()
-## 5. Create a .R file in the R folder to document the data object.
+## 5. Create an .R file in the R folder to document the data object.
 ## See the existing .R files for formatting examples.
-
+library(tidyverse)
 
 ### State Boundary
 boundary <- sf::st_read("data-raw//SC_boundary_new.shp") %>%
@@ -35,6 +35,8 @@ usethis::use_data(basins)
 
 basins <- sf::st_transform(basins, 4269)
 
+basins <- dplyr::rename(basins, Basin=basin)
+
 usethis::use_data(basins, overwrite=T)
 
 ######## Counties
@@ -43,12 +45,38 @@ counties <- sf::st_read("data-raw//counties.shp") %>%
   # sf::st_as_sf() %>%
   sf::st_transform(4269)
 
-counties <- SC_counties %>%
-  dplyr::select(County=COUNTYNM) %>%
-  # sf::st_as_sf() %>%
-  sf::st_transform(4269)
+# counties <- SC_counties %>%
+#   dplyr::select(County=COUNTYNM) %>%
+#   # sf::st_as_sf() %>%
+#   sf::st_transform(4269)
 
 usethis::use_data(counties)
 
 
+## Add capacity use and drought management attributes
+capacity_use <- tibble::tribble(
+  ~Name, ~Date_Established, ~Counties, ~Aliases,
+  "Waccamaw", "6/22/1979", c("Horry", "Georgetown"), "waccamaw",
+  "Lowcountry", "7/24/1981", c("Jasper", "Beaufort", "Colleton"), "Low Country",
+  "Hampton (Lowcountry)", "6/10/2008", c("Hampton"), "",
+  "Trident", "8/8/2002",  c("Charleston", "Berkeley", "Dorchester"), "trident",
+  "Pee Dee", "2/12/2004", c("Marion", "Marlboro", "Darlington", "Dillon", "Florence", "Williamsburg"), "PeeDee",
+  "Western", "11/8/2018", c("Aiken", "Bamberg", "Barnwell", "Calhoun", "Allendale", "Lexington", "Orangeburg"), "western",
+  "Santee-Lynches", "7/15/2021", c("Chesterfield", "Clarendon", "Kershaw", "Lee", "Richland", "Sumter"), "SanteeLynches") %>%
+  dplyr::select(Capacity_Use_Zone = Name, Capacity_Use_Date = Date_Established,
+                County=Counties) %>%
+  tidyr::unnest(cols=c(County))
 
+counties2 <- dplyr::left_join(counties, capacity_use)
+
+counties2 %>% sf::st_drop_geometry() %>% View()
+
+
+
+
+### the custom CRS used in the GMS Groundwater Model
+crs_GMS <- readRDS("~/Rpackages/scsf/data-raw/crs_GMS.rds")
+usethis::use_data(crs_GMS)
+
+crs_leaflet <- '+proj=longlat +datum=WGS84'
+usethis::use_data(crs_leaflet)
