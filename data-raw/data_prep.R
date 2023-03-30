@@ -29,15 +29,21 @@ basins <- sf::st_read(
   dplyr::rename('Spatial_basin' = 'Basin' ) %>%
   st_transform(st_crs(ground_with_coord_sf)) %>%
   sf::st_as_sf() %>%
-  dplyr::select(basin=BASIN8)
-
-usethis::use_data(basins)
-
-basins <- sf::st_transform(basins, 4269)
-
-basins <- dplyr::rename(basins, Basin=basin)
+  dplyr::select(Basin=BASIN8) %>%
+  sf::st_transform(basins, 4269)
 
 usethis::use_data(basins, overwrite=T)
+
+
+
+### Planning Basins
+# getwd()
+planning_basins <- sf::st_read(
+  dsn = "data-raw/planning_basins/PlanningBasins2022.shp") %>%
+  sf::st_transform(4269) %>%
+  dplyr::rename(Basin=Plannning_)
+
+usethis::use_data(planning_basins, overwrite=T)
 
 ######## Counties
 counties <- sf::st_read("data-raw//counties.shp") %>%

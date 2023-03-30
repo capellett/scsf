@@ -17,3 +17,5 @@ st_drop_geometry_if <- function(x) {
   } else {
     return(x)}
 }
+
+## st_drop_geometry_keep
