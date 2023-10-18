@@ -39,9 +39,8 @@ usethis::use_data(basins, overwrite=T)
 ### Planning Basins
 # getwd()
 planning_basins <- sf::st_read(
-  dsn = "data-raw/planning_basins/PlanningBasins2022.shp") %>%
-  sf::st_transform(4269) %>%
-  dplyr::rename(Basin=Plannning_)
+  dsn = "data-raw/planning_basins2023/PlanningBasins2023.shp") %>%
+  sf::st_transform(4269)
 
 usethis::use_data(planning_basins, overwrite=T)
 
