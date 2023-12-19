@@ -1,0 +1,49 @@
+
+
+```{r}
+library(magrittr)
+
+```
+
+
+```{r}
+
+# install.packages('FedData')
+load("~/Rpackages/scsf/data/boundary.rda")
+```
+
+
+```{r}
+## retrieve the Watershed Boundary Dataset
+wbd0 <-FedData::get_wbd(template = boundary, label='sc')
+
+```
+
+
+```{r}
+wbd0 %>%
+  ggplot2::ggplot() +
+  ggplot2::geom_sf()
+
+```
+
+```{r}
+wbd1 <- wbd0 %>%
+  sf::st_transform(sf::st_crs(boundary)) %>%
+  sf::st_filter(boundary)
+
+```
+
+```{r}
+wbd1 %>%
+  ggplot2::ggplot() +
+  ggplot2::geom_sf()
+
+```
+
+```{r}
+wbd <- wbd1
+
+usethis::use_data(wbd, overwrite=T)
+
+```
