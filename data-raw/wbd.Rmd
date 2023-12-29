@@ -13,7 +13,7 @@ load("~/Rpackages/scsf/data/boundary.rda")
 ```
 
 
-```{r}
+```{r eval=F}
 ## retrieve the Watershed Boundary Dataset
 wbd0 <-FedData::get_wbd(template = boundary, label='sc')
 
@@ -47,3 +47,31 @@ wbd <- wbd1
 usethis::use_data(wbd, overwrite=T)
 
 ```
+
+
+```{r}
+load("~/Rpackages/scsf/data/wbd.rda")
+
+huc10 <- wbd %>%
+  dplyr::mutate(huc10 = stringr::str_sub(huc12, 1, 10)) %>%
+  dplyr::select(huc10, areaacres) %>%
+  dplyr::group_by(huc10) %>%
+  dplyr::summarise(areaacres=sum(areaacres))
+
+```
+
+```{r}
+huc10 %>%
+  ggplot2::ggplot() +
+  ggplot2::geom_sf()
+```
+
+
+```{r}
+usethis::use_data(huc10, overwrite=T)
+
+```
+
+
+
+
