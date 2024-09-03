@@ -17,6 +17,11 @@ usethis::use_data(boundary)
 # usethis::use_data(boundary2)
 
 
+### other states
+states <- sf::st_as_sf(maps::map("state", plot = FALSE, fill = TRUE))
+
+usethis::use_data(states)
+
 ####### Basins
 ## The SC_major_river_basins shapefile was downloaded from the SCDHEC's website
 ## https://sc-department-of-health-and-environmental-control-gis-sc-dhec.hub.arcgis.com/datasets/sc-major-river-basins/explore?location=33.617600%2C-80.935600%2C8.34

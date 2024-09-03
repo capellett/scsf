@@ -1,0 +1,21 @@
+---
+title: "SC DOT data"
+author: "CA Pellett"
+format: html
+---
+
+```{r}
+highways <- sf::st_read('scdot/GISTRANS.HIGHWAYS.shp')
+# object.size(highways) ## 200 MB
+
+usethis::use_data(highways, overwrite=T)
+
+municipalities <- sf::st_read('scdot/GISTANS.MUNICIPAL_AREAS.shp')
+## gistans or gistrans? this one is spelled different.
+# object.size(municipalities) ## 6.2 MB
+
+usethis::use_data(municipalities, overwrite=T)
+
+roads <- sf::st_read('scdot/GISTRANS.OTHER_ROADS.shp')
+# object.size(roads) ## 330 MB
+```

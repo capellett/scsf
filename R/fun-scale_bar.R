@@ -9,9 +9,9 @@
 ## location: Where to put the scale bar ("tl" for top left, etc.)
 ## line_col and text_col: Line and text colour, respectively
 
-
+#' @export
 scale_bar <- function(...){
-  ggpspatial::annotation_scale(
+  ggspatial::annotation_scale(
     mapping = NULL,
     data = NULL,
     width_hint = 0.5,
@@ -21,10 +21,10 @@ scale_bar <- function(...){
     plot_unit = NULL,
     bar_cols = c("black", "white"),
     line_width = 1,
-    height = unit(0.25, "cm"),
-    pad_x = unit(0.25, "cm"),
-    pad_y = unit(0.25, "cm"),
-    text_pad = unit(0.15, "cm"),
+    height = grid::unit(0.25, "cm"),
+    pad_x = grid::unit(0.25, "cm"),
+    pad_y = grid::unit(0.25, "cm"),
+    text_pad = grid::unit(0.15, "cm"),
     text_cex = 0.7,
     text_face = NULL,
     text_family = "",

@@ -5,14 +5,15 @@
 ## and make it a more typical looking arrow. (not one-sided)
 
 ### a simple north arrow:
+#' @export
 north_arrow1 <- function(...) {
   ggspatial::annotation_north_arrow(
     ..., which_north = "true", location = 'br',
     mapping = NULL, data = NULL,
-    height = unit(1.5, "cm"),
-    width = unit(1.5, "cm"),
-    pad_x = unit(0.25, "cm"),
-    pad_y = unit(0.25, "cm"),
+    height = grid::unit(1.5, "cm"),
+    width = grid::unit(1.5, "cm"),
+    pad_x = grid::unit(0.25, "cm"),
+    pad_y = grid::unit(0.25, "cm"),
     rotation = NULL,
     style = ggspatial::north_arrow_orienteering(
       line_width = 1,
@@ -25,14 +26,15 @@ north_arrow1 <- function(...) {
       text_angle=0))
 }
 
+#' @export
 north_arrow2 <- function(...) {
   ggspatial::annotation_north_arrow(
     ..., which_north = "true", location = 'br',
     mapping = NULL, data = NULL,
-    height = unit(1.5, "cm"),
-    width = unit(1.5, "cm"),
-    pad_x = unit(0.25, "cm"),
-    pad_y = unit(0.25, "cm"),
+    height = grid::unit(1.5, "cm"),
+    width = grid::unit(1.5, "cm"),
+    pad_x = grid::unit(0.25, "cm"),
+    pad_y = grid::unit(0.25, "cm"),
     rotation = NULL,
     style = ggspatial::north_arrow_minimal(
       line_width = 1,
@@ -49,14 +51,16 @@ north_arrow2 <- function(...) {
 
 ## Do want at least one direction label on this one.
 ### a fancier compass rose
+
+#' @export
 compass_rose <- function(...) {
   ggspatial::annotation_north_arrow(
     ..., which_north = "true", location = 'br',
     mapping = NULL, data = NULL,
-    height = unit(1.5, "cm"),
-    width = unit(1.5, "cm"),
-    pad_x = unit(0.25, "cm"),
-    pad_y = unit(0.25, "cm"),
+    height = grid::unit(1.5, "cm"),
+    width = grid::unit(1.5, "cm"),
+    pad_x = grid::unit(0.25, "cm"),
+    pad_y = grid::unit(0.25, "cm"),
     rotation = NULL,
     style = ggspatial::north_arrow_nautical(
       line_width = 1,

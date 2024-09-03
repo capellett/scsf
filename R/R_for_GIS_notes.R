@@ -1,4 +1,4 @@
-### Create a complete map figure - 7.5x11 landscape, 7.5x11 portrait, 15x11 landscape, 15x11 portrait
+### Create a complete map figure - 8.5x11 landscape, 8.5x11 portrait, 17x11 landscape, 17x11 portrait
 ### Include 1) map frame - background image, polygons, 2) title, 3) Legend, 4) mini-map, 5) data sources,
 ### 6) map author, 7) scale bar, 8) north arrow.
 
